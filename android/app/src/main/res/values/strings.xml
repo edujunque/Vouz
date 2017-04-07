@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Vouz</string>
+    <string name="fb_app_id">1773774456284281</string>
+    <string name="fb_login_protocol_scheme">fb1773774456284281</string>
+</resources>
