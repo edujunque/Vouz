@@ -9,6 +9,7 @@ import Galeria from './components/Galeria';
 import CenaLoginFacebook from './components/CenaLoginFacebook';
 import CenaEditarPerfil from './components/CenaEditarPerfil';
 import CenaEntrarJa from './components/CenaEntrarJa';
+import CenaFaleConosco from './components/CenaFaleConosco';
 
 const imgTemp = require('./imgs/NoPhoto_icon-user-default.png');
 
@@ -29,6 +30,7 @@ const Rotas = () => (
 	    <Scene hideNavBar={false} key='CenaLoginFacebook' component={CenaLoginFacebook}  />
 	    <Scene hideNavBar={false} key='editarPerfil' component={CenaEditarPerfil} leftButtonIconStyle = {{ tintColor:'#EE2B7A'}}/>
 	    <Scene hideNavBar={false} key='entrarJa' component={CenaEntrarJa} leftButtonIconStyle = {{ tintColor:'#EE2B7A'}}/>
+	    <Scene hideNavBar={false} key='faleConosco' component={CenaFaleConosco} leftButtonIconStyle = {{ tintColor:'#EE2B7A'}}/>
 	</Router>
 	);
 

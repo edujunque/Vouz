@@ -2,11 +2,11 @@
   <library name="react-native-0.42.3">
     <ANNOTATIONS>
       <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.42.3/annotations.zip!/" />
-      <root url="jar://$PROJECT_DIR$/../node_modules/react-native-maps/android/build/intermediates/exploded-aar/com.facebook.react/react-native/0.42.3/annotations.zip!/" />
-      <root url="jar://$PROJECT_DIR$/../node_modules/react-native-share/android/build/intermediates/exploded-aar/com.facebook.react/react-native/0.42.3/annotations.zip!/" />
-      <root url="jar://$PROJECT_DIR$/../node_modules/react-native-linear-gradient/android/build/intermediates/exploded-aar/com.facebook.react/react-native/0.42.3/annotations.zip!/" />
       <root url="jar://$PROJECT_DIR$/../node_modules/react-native-facebook-login/android/build/intermediates/exploded-aar/com.facebook.react/react-native/0.42.3/annotations.zip!/" />
+      <root url="jar://$PROJECT_DIR$/../node_modules/react-native-linear-gradient/android/build/intermediates/exploded-aar/com.facebook.react/react-native/0.42.3/annotations.zip!/" />
+      <root url="jar://$PROJECT_DIR$/../node_modules/react-native-maps/android/build/intermediates/exploded-aar/com.facebook.react/react-native/0.42.3/annotations.zip!/" />
       <root url="jar://$PROJECT_DIR$/../node_modules/react-native-photo-view/android/build/intermediates/exploded-aar/com.facebook.react/react-native/0.42.3/annotations.zip!/" />
+      <root url="jar://$PROJECT_DIR$/../node_modules/react-native-share/android/build/intermediates/exploded-aar/com.facebook.react/react-native/0.42.3/annotations.zip!/" />
       <root url="jar://$PROJECT_DIR$/../node_modules/react-native-vector-icons/android/build/intermediates/exploded-aar/com.facebook.react/react-native/0.42.3/annotations.zip!/" />
     </ANNOTATIONS>
     <CLASSES>
