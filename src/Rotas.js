@@ -30,7 +30,13 @@ const Rotas = () => (
 	    <Scene hideNavBar={false} key='CenaLoginFacebook' component={CenaLoginFacebook}  />
 	    <Scene hideNavBar={false} key='editarPerfil' component={CenaEditarPerfil} leftButtonIconStyle = {{ tintColor:'#EE2B7A'}}/>
 	    <Scene hideNavBar={false} key='entrarJa' component={CenaEntrarJa} leftButtonIconStyle = {{ tintColor:'#EE2B7A'}}/>
-	    <Scene hideNavBar={false} key='faleConosco' component={CenaFaleConosco} leftButtonIconStyle = {{ tintColor:'#EE2B7A'}}/>
+	    <Scene hideNavBar={false} key='faleConosco' 
+	    		component={CenaFaleConosco} 
+	    		leftButtonIconStyle = {{ tintColor:'#EE2B7A'}} 
+	    		title='CONTATO'
+	    		titleStyle={{color:'#b5b5b5'}}
+	    		
+		/>
 	</Router>
 	);
 

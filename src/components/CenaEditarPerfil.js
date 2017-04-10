@@ -50,6 +50,15 @@ export default class CenaEditarPerfil extends Component {
                <View style={styles.viewLogout}>
                  <BotaoDeslogar />
                </View>
+               <View style={styles.viewFaleConosco}>
+                  <TouchableHighlight style={styles.btnFaleconosco}
+                    onPress={() => {Actions.faleConosco();}}
+                    underlayColor={'#303030'}
+                    activeOpacity={0.5}
+                    >
+                    <Text style={styles.txtFaleConosco}>FALE CONOSCO</Text>
+                  </TouchableHighlight>
+               </View>
                <View style={styles.viewRights}>
                  <Text style={{color: 'white', fontSize: 12}}>
                    VERSÃO DO APLICATIVO 1.0
@@ -78,6 +87,12 @@ const styles = StyleSheet.create({
     marginTop: 30,
     flex: 2
   },
+  viewFaleConosco: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 30,
+    flex: 2
+  },
   viewRights: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -100,5 +115,19 @@ const styles = StyleSheet.create({
   conteudo:{
     flex: 10,
     // backgroundColor: '#1D1D1D'
-  }
+  },
+btnFaleconosco: {
+  backgroundColor: 'transparent',
+  width: 225,
+  alignItems: 'center',
+  padding: 8,
+  borderRadius: 30,
+  borderWidth: 1,
+  borderColor: '#e5e5e5'
+},
+txtFaleConosco: {
+  color: '#e5e5e5',
+  fontWeight: 'bold',
+  fontSize: 14
+}
 });
