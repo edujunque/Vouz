@@ -4,6 +4,7 @@ import { Actions } from 'react-native-router-flux';
 import LoginFacebook from './CenaLoginFacebook'
 import CriarConta from './CenaCriarConta'
 import {firebaseRef, auth} from '../FirebaseConfig'
+import SplashScreen from 'react-native-splash-screen'
 
 const imgLogo = require('../imgs/logo.png');
 const imgBackground = require('../imgs/bg.jpg');
@@ -23,7 +24,9 @@ export default class CenaLogin extends Component {
       );
   } 
 
-
+    componentDidMount() {
+        SplashScreen.hide();
+    }
 
  render() {
     return (

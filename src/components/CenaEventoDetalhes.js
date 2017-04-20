@@ -258,7 +258,7 @@ returnCheckins(){
               </View>
               <View style={styles.tipoEntrada}>
                 <View style={{flex: 1}}>
-                   <View style={{flex: 4, margin: 10}}>
+                   <View style={{flex: 4.5, margin: 10}}>
                      <ListView
                       data={this.state.evento.eventoPrecos}
                       renderRow={precos => this.renderRowPrecos(precos)}
