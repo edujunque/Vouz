@@ -10,6 +10,7 @@ import CenaLoginFacebook from './components/CenaLoginFacebook';
 import CenaEditarPerfil from './components/CenaEditarPerfil';
 import CenaEntrarJa from './components/CenaEntrarJa';
 import CenaFaleConosco from './components/CenaFaleConosco';
+import CenaListagemCupons from './components/CenaListagemCupons';
 
 const imgTemp = require('./imgs/NoPhoto_icon-user-default.png');
 
@@ -34,6 +35,13 @@ const Rotas = () => (
 	    		component={CenaFaleConosco} 
 	    		leftButtonIconStyle = {{ tintColor:'#EE2B7A'}} 
 	    		title='CONTATO'
+	    		titleStyle={{color:'#b5b5b5'}}
+	    		
+		/>
+	    <Scene hideNavBar={false} key='cupons' 
+	    		component={CenaListagemCupons} 
+	    		leftButtonIconStyle = {{ tintColor:'#EE2B7A'}} 
+	    		title='CUPONS'
 	    		titleStyle={{color:'#b5b5b5'}}
 	    		
 		/>

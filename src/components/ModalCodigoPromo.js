@@ -11,11 +11,11 @@ export default class botaoLike extends Component {
     this.state = { codPromo : ''};
    }
   setmodalCodPromoVisible(visible) {
-    this.setState({modalCodPromoVisible: visible});
+    this.setState({codVisualizado: visible});
   }
 
    componentWillMount() {
-    // this.setmodalCheckinVisible(false);
+    this.setmodalCodPromoVisible(true);
     
     // alert(this.props.evNome);
     const usuarioAtual = auth.currentUser;

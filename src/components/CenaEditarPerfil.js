@@ -47,6 +47,15 @@ export default class CenaEditarPerfil extends Component {
                   {this.state.userName.toUpperCase()}
                 </Text>
                </View>
+               <View style={styles.viewOpcoes}>
+                  <TouchableHighlight style={styles.btnCupons}
+                    onPress={() => {Actions.cupons({evID: 1});}}
+                    underlayColor={'#303030'}
+                    activeOpacity={0.5}
+                    >
+                    <Text style={styles.txtFaleConosco}>Meus cupons</Text>
+                  </TouchableHighlight>
+               </View>
                <View style={styles.viewLogout}>
                  <BotaoDeslogar />
                </View>
@@ -81,6 +90,11 @@ export default class CenaEditarPerfil extends Component {
 }
 
 const styles = StyleSheet.create({
+  viewOpcoes: {
+    marginTop: 30,
+    alignItems: 'center',
+    flex: 2
+  },
   viewLogout: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -115,6 +129,7 @@ const styles = StyleSheet.create({
   conteudo:{
     flex: 10,
     // backgroundColor: '#1D1D1D'
+
   },
 btnFaleconosco: {
   backgroundColor: 'transparent',
@@ -122,6 +137,15 @@ btnFaleconosco: {
   alignItems: 'center',
   padding: 8,
   borderRadius: 30,
+  borderWidth: 1,
+  borderColor: '#e5e5e5'
+},
+btnCupons: {
+  backgroundColor: 'transparent',
+  width: 150,
+  alignItems: 'center',
+  padding: 8,
+  borderRadius: 60,
   borderWidth: 1,
   borderColor: '#e5e5e5'
 },
