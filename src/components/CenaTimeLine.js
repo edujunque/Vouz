@@ -271,6 +271,7 @@ listarDados(filter){
            heading={ <TabHeading style={{backgroundColor: 'black'}}><Text style={this.changeTxtTabStyle(0)}>Recentes</Text></TabHeading>}>
           <Screen style={{backgroundColor: 'black'}}>
               {this.returnEventsListView()}
+              <ModalCodigoPromo modalCheckIn={true} evID={1} evNome={"Ble"}/>
           </Screen>
           </Tab>
           <Tab 
@@ -291,7 +292,7 @@ listarDados(filter){
               {this.returnEventsListView()}
             </Screen>
           </Tab>
-          <ModalCodigoPromo evID={this.state.evento.evID} evNome={this.state.evento.evNome} modalCheckIn={this.hours_between(this.state.evento.evData,this.state.evento.evHorarioInicio,this.state.evento.evHorarioFim,this.state.evento.evTempoDuracao)} />
+          
         </Tabs>
       
       </View>
