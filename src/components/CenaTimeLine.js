@@ -7,6 +7,7 @@ import Rodape from './Rodape'
 import Topo from './Topo'
 import Filtro from './Filtro'
 import BotaoLike from './BotaoLike'
+import ModalCodigoPromo from './ModalCodigoPromo'
 import {firebaseRef, auth} from '../FirebaseConfig'
 import { Container, Content, Tab, Tabs, TabHeading } from 'native-base';
 
@@ -290,6 +291,7 @@ listarDados(filter){
               {this.returnEventsListView()}
             </Screen>
           </Tab>
+          <ModalCodigoPromo evID={this.state.evento.evID} evNome={this.state.evento.evNome} modalCheckIn={this.hours_between(this.state.evento.evData,this.state.evento.evHorarioInicio,this.state.evento.evHorarioFim,this.state.evento.evTempoDuracao)} />
         </Tabs>
       
       </View>
