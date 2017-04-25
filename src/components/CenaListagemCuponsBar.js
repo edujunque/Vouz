@@ -16,88 +16,100 @@ export default class CenaEventoDetalhes extends Component {
   constructor(props){
     super(props);
     //this.state = { evento : this.getEventos().filter((evento) => evento.evID == this.props.evID)};
+    this.state = { users : []};
     this.state = { codPromo : []};
     
   };
-
-
-  listarDados(){
-      const usuarioAtual = auth.currentUser;
-      var refData = firebaseRef.child('user/'+ usuarioAtual.uid);
-      // refData.once("value").then((snapshot) => {
-      //   // alert(snapshot.val().name);
-      //   //Verifica se o usuario tem algum codigo promocional
-      //   if(snapshot.child('/codPromo' + '/evID' ).exists()){
-      //   	 this.setState({ codPromo: snapshot.val().codPromo.evID});
-      //   }else {
-      //   	//Não tem codigo
-
-      //   }
-       
-
-      // });
-
-      refData.on("value", (snapshot) => {
-        // alert(snapshot.val().name);
-        //Verifica se o usuario tem algum codigo promocional
-        if(snapshot.child('/codPromo' + '/evID' ).exists()){
-        	 this.setState({ codPromo: snapshot.val().codPromo.evID});
-        }else {
-        	//Não tem codigo
-
-        }
-       
-
-      });      
-
-   // var eventos = firebaseRef.child('eventos').child(this.props.evID);
-   // eventos.on('value', (snapshot) => { 
-   //    var evento = snapshot.val();
-   //    this.setState({ evento : evento});
-   //  });
-  }
-
-  // getEventos() {
-  //   return require('../../assets/agendabox-2a212-export.json');
-  // }
 
   componentWillMount() {
     this.listarDados();
   }
 
+  listarDados(){
+ 
+      var refData = firebaseRef.child('user/');
+      refData.on("value", (snapshot) => {
+        // alert(snapshot.val().name);
+        var user = snapshot.val();
+		this.setState({ users: user});
+      });   
+
+  }
+
+  populaListagem(){
+  	if(this.state.users != undefined){
+  	  	return(
+	      <ListView
+		  data={this.state.users}
+		  renderRow={users => this.renderRowUsers(users)}
+		  />
+		);
+  	} else {
+  		<Text style={{color: 'white', fontSize: 30}}>Carregando...</Text>
+  	}
+
+
+  }
+
+
   // defines the UI of each row in the list
-  renderRowCodPromo(codPromo) {
-  	console.log(codPromo);
+  renderRowUsers(users) {
+  	if(users.codPromo != undefined){
+	 return(
+	 	<View>
+          <View>
+            <Text style={{color: '#EE2B7A'}}>{users.name}</Text>
+          </View>
+          <View>
+	 	      <ListView
+			  data={users.codPromo.evID}
+			  renderRow={codPromo => this.renderRowCodPromo(codPromo, users.userID)}
+			  />         	
+          </View>
+	  	</View>
+	 );
+  	} else {
+  		return (null);
+  	}
+  }  
+  // defines the UI of each row in the list
+  renderRowCodPromo(codPromo, userID) {
+  	console.log(userID);
     return (
         <View>
-          <View>
-            <Text style={{color: '#EE2B7A'}}>{codPromo.evID === 0 ? 'Adesão ao VOUZ' : 'Outro evento'}</Text>
-          </View>
           <View style={{flex: 1, flexDirection: 'row', justifyContent:'flex-start', marginBottom: 8, marginTop: 2}}>
             <View style={{flex: 2, flexDirection: 'row', borderRightWidth: 0.5, borderColor: '#737373'}}>
              <Text style={codPromo.codUsado == false ? styles.txtCodLabelDisponivel : styles.txtCodLabelUsado}>CÓDIGO: </Text>
              <Text style={codPromo.codUsado == false ? styles.txtCodDisponivel : styles.txtCodUsado}>{codPromo.cod}</Text>
             </View>
             <View style={{flex: 2, flexDirection: 'row', paddingLeft: 10}}>
-              <Text style={codPromo.codUsado == false ? styles.txtStatusDisponivel : styles.txtStatusUsado}>{codPromo.codUsado == false ? 'Disponível' : 'Usado'}</Text>
+              <TouchableHighlight style={codPromo.codUsado == false ? styles.btnUsarCodHabilitado : styles.btnUsarCodDesabilitado}
+                  onPress={() => {this.alterarStatusCodPromo(userID, codPromo.evID); }}
+                  underlayColor={'transparent'}
+                  activeOpacity={0.5}
+                  disabled={codPromo.codUsado}
+                  >
+				<Text style={codPromo.codUsado == false ? styles.txtStatusDisponivel : styles.txtStatusUsado}>{codPromo.codUsado == false ? 'Disponível' : 'Usado'}</Text>
+              </TouchableHighlight>              
             </View>
-           </View>
+          </View>
         </View>
-     );
+     );  		
+
   }
 
+	alterarStatusCodPromo(userID, evID){
+      firebaseRef.child('user/'+ userID + '/codPromo/evID/' + evID).update({
+        codUsado : true
+      });
+	}
 
   render() {
     return (
-
       <Image style={{flex: 1, height: null, width: null, resizeMode: 'cover'}} source= {imgBackground}>
       	<View style={{flex: 9, flexDirection: 'row',   backgroundColor: '#303030',  borderRadius: 10, margin: 10, marginTop: 70}}>
 	      	<View style={{flex: 1, padding: 15}}>
-
-	      		<ListView
-	          data={this.state.codPromo}
-	          renderRow={codPromo => this.renderRowCodPromo(codPromo)}
-	          />	
+	      		{this.populaListagem()}
 	      	</View>
       	</View>
       	<View style={{flex: 2}}></View>
@@ -144,6 +156,12 @@ const styles = StyleSheet.create({
  	fontWeight: 'bold', 
  	paddingLeft: 10,
  	textDecorationLine: 'line-through'
+ },
+ btnUsarCodHabilitado: {
+ 	opacity: 1
+ },
+ btnUsarCodDesabilitado: {
+ 	opacity: 0.5
  }
 });
 

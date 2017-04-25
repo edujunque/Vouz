@@ -47,7 +47,8 @@ export default class botaoLike extends Component {
           firebaseRef.child('user/'+ usuarioAtual.uid + '/codPromo/evID/' + 0).set({
             cod : codTemp,
             codUsado : false,
-            codVisualizado : false
+            codVisualizado : false,
+            evID : 0
           });
           //atualiza state com codPromo:
           this.setState({codPromo : codTemp});

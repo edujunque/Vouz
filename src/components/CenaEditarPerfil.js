@@ -28,7 +28,34 @@ export default class CenaEditarPerfil extends Component {
     }
 
   ReturnURL(){
-      return auth.currentUser.photoURL == null ? 'https://s3.amazonaws.com/convertflow/uploads/4e5effb9-0ef6-4975-ad75-1fd20c051e78/NoPhoto_icon-user-default.png' :  auth.currentUser.photoURL;
+      return auth.currentUser.photoURL == null ? 'https://firebasestorage.googleapis.com/v0/b/agendabox-72bc2.appspot.com/o/NoPhoto_icon-user-default.png?alt=media&token=a3c89af6-759b-47a7-86e0-f6cdb2474965' :  auth.currentUser.photoURL;
+  }
+
+  returnBtnCupons(){
+    const usuarioAtual = auth.currentUser;
+    //Verifica se o usuario é admin dos cupons
+    if(usuarioAtual.email == 'primeirobarvouz@gmail.com'){
+      return (
+          <TouchableHighlight style={styles.btnCupons}
+            onPress={() => {Actions.cuponsBar();}}
+            underlayColor={'#303030'}
+            activeOpacity={0.5}
+            >
+            <Text style={styles.txtFaleConosco}>VALIDAR CUPONS</Text>
+          </TouchableHighlight>  
+        );
+    } else {
+      return (
+          <TouchableHighlight style={styles.btnCupons}
+            onPress={() => {Actions.cupons();}}
+            underlayColor={'#303030'}
+            activeOpacity={0.5}
+            >
+            <Text style={styles.txtFaleConosco}>Meus cupons</Text>
+          </TouchableHighlight>        
+        );
+    }
+
   }
 
   render() {
@@ -48,13 +75,7 @@ export default class CenaEditarPerfil extends Component {
                 </Text>
                </View>
                <View style={styles.viewOpcoes}>
-                  <TouchableHighlight style={styles.btnCupons}
-                    onPress={() => {Actions.cupons({evID: 1});}}
-                    underlayColor={'#303030'}
-                    activeOpacity={0.5}
-                    >
-                    <Text style={styles.txtFaleConosco}>Meus cupons</Text>
-                  </TouchableHighlight>
+                  {this.returnBtnCupons()}
                </View>
                <View style={styles.viewLogout}>
                  <BotaoDeslogar />
