@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet,  Text,  View, TouchableHighlight, ScrollView, Select, Option, 
-         TouchableOpacity, Clipboard, ToastAndroid, AlertIOS, Platform
+         TouchableOpacity, Clipboard, ToastAndroid, AlertIOS, Platform, TextInput
        } from 'react-native';
 import {firebaseRef, auth} from '../FirebaseConfig'
 import { Image,  ListView,  Tile,  Title,  Subtitle,  Screen} from '@shoutem/ui';
@@ -11,6 +11,7 @@ import Rodape from './Rodape'
 const imgBackground = require('../imgs/fdo_user.jpg');
 const imgMen = require('../imgs/men-grey.png');
 const imgWomen = require('../imgs/woman-grey.png');
+var listagemUsuario = [];
 
 export default class CenaEventoDetalhes extends Component {
   constructor(props){
@@ -18,7 +19,7 @@ export default class CenaEventoDetalhes extends Component {
     //this.state = { evento : this.getEventos().filter((evento) => evento.evID == this.props.evID)};
     this.state = { users : []};
     this.state = { codPromo : []};
-    
+    this.state = { populaListagemDados : []}
   };
 
   componentWillMount() {
@@ -26,14 +27,13 @@ export default class CenaEventoDetalhes extends Component {
   }
 
   listarDados(){
- 
       var refData = firebaseRef.child('user/');
       refData.on("value", (snapshot) => {
         // alert(snapshot.val().name);
         var user = snapshot.val();
 		this.setState({ users: user});
-      });   
-
+		// console.log(snapshot.key);
+      });  
   }
 
   populaListagem(){
@@ -51,10 +51,20 @@ export default class CenaEventoDetalhes extends Component {
 
   }
 
-
   // defines the UI of each row in the list
   renderRowUsers(users) {
   	if(users.codPromo != undefined){
+  		//verifica se o registro não esta duplicado
+  		var precisaInserir = true;
+	for (var i = 0; i < listagemUsuario.length; i++) {
+     if(listagemUsuario[i].userID == users.userID){
+        precisaInserir = false;
+     }
+    }	  		
+	if(precisaInserir){
+		listagemUsuario.push(users)
+	}   	   			
+     // console.log(listagemUsuario);	
 	 return(
 	 	<View>
           <View>
@@ -74,7 +84,7 @@ export default class CenaEventoDetalhes extends Component {
   }  
   // defines the UI of each row in the list
   renderRowCodPromo(codPromo, userID) {
-  	console.log(userID);
+  	// console.log(userID);
     return (
         <View>
           <View style={{flex: 1, flexDirection: 'row', justifyContent:'flex-start', marginBottom: 8, marginTop: 2}}>
@@ -103,13 +113,35 @@ export default class CenaEventoDetalhes extends Component {
         codUsado : true
       });
 	}
+	atualizaListagem(txtFiltro){
+		var listagemUser = [];
+		for (var i = 0; i < listagemUsuario.length; i++) {
+		    // Iterate over numeric indexes from 0 to 5, as everyone expects.
+         if(listagemUsuario[i].name.includes(txtFiltro)){
+            listagemUser.push(listagemUsuario[i]);
+         }			    
+		}			
+        this.setState({ users : listagemUser});
+	}
 
   render() {
     return (
       <Image style={{flex: 1, height: null, width: null, resizeMode: 'cover'}} source= {imgBackground}>
-      	<View style={{flex: 9, flexDirection: 'row',   backgroundColor: '#303030',  borderRadius: 10, margin: 10, marginTop: 70}}>
+      	<View style={{marginTop: 70,  backgroundColor: 'black', borderRadius: 30}}>
+	      <TextInput
+		  style={styles.formText}
+	      underlineColorAndroid='rgba(0,0,0,0)'
+	      placeholder="Digite aqui o nome que deseja encontrar."
+	      placeholderTextColor='white'
+	      onChangeText={(txtFiltro) => this.atualizaListagem(txtFiltro)}
+	      value={this.state.email}
+	      />
+      	</View>
+      	<View style={{flex: 9, flexDirection: 'row',   backgroundColor: '#303030',  borderRadius: 10, margin: 10}}>
 	      	<View style={{flex: 1, padding: 15}}>
-	      		{this.populaListagem()}
+	      		<ScrollView>
+	      			{this.populaListagem()}
+				</ScrollView>	      			
 	      	</View>
       	</View>
       	<View style={{flex: 2}}></View>
@@ -162,6 +194,12 @@ const styles = StyleSheet.create({
  },
  btnUsarCodDesabilitado: {
  	opacity: 0.5
- }
+ },
+formText: {
+  color: 'white',
+  height: 40, 
+  width: 300,
+  paddingLeft: 10,
+ },
 });
 
