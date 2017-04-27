@@ -67,12 +67,23 @@ export default class CenaEventoDetalhes extends Component {
 
   // defines the UI of each row in the list
   renderRowCodPromo(codPromo) {
-  	console.log(codPromo);
+    var nomeEvento = '';
+    var nomePromo = '';
+  	//obtem os dados do evento em questão
+      var refDataEvento = firebaseRef.child('eventos/'+ codPromo.evID);
+      refDataEvento.on('value',(snapshot) => {
+        nomeEvento = snapshot.val().evNome;
+        nomePromo = snapshot.val().evPromo.promoNome;
+
+     });      
     return (
         <View>
           <View>
-            <Text style={{color: '#EE2B7A'}}>{codPromo.evID === 0 ? 'Adesão ao VOUZ' : 'Outro evento'}</Text>
+            <Text style={{color: '#EE2B7A'}}>{nomeEvento}</Text>
           </View>
+          <View style={{paddingLeft: 10}}>
+            <Text style={{color: '#EE2B7A', textSize: 12}}>PROMOÇÃO: ({nomePromo})</Text>
+          </View>          
           <View style={{flex: 1, flexDirection: 'row', justifyContent:'flex-start', marginBottom: 8, marginTop: 2}}>
             <View style={{flex: 2, flexDirection: 'row', borderRightWidth: 0.5, borderColor: '#737373'}}>
              <Text style={codPromo.codUsado == false ? styles.txtCodLabelDisponivel : styles.txtCodLabelUsado}>CÓDIGO: </Text>

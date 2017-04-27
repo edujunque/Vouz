@@ -13,7 +13,9 @@ const imgBackground = require('../imgs/fdo_user.jpg');
 export default class CenaEditarPerfil extends Component {
   constructor(props){
     super(props);
-    this.state = {userName : ''};
+    this.state = {userName: ''};
+    this.state = {isAdmin: false};
+    
    }
 
     componentWillMount() {
@@ -22,9 +24,14 @@ export default class CenaEditarPerfil extends Component {
       refData.once("value").then((snapshot) => {
         // alert(snapshot.val().name);
         this.setState({ userName: snapshot.val().name});
-
+        if (snapshot.child('/evID').exists()){
+          //caso exista esse nó é um admin de evento
+          this.setState({isAdmin : true});
+          this.setState({evID : snapshot.val().evID});
+       }else{
+          this.setState({isAdmin : false});
+        }        
       });
-
     }
 
   ReturnURL(){
@@ -32,29 +39,27 @@ export default class CenaEditarPerfil extends Component {
   }
 
   returnBtnCupons(){
-    const usuarioAtual = auth.currentUser;
-    //Verifica se o usuario é admin dos cupons
-    if(usuarioAtual.email == 'primeirobarvouz@gmail.com'){
-      return (
-          <TouchableHighlight style={styles.btnCupons}
-            onPress={() => {Actions.cuponsBar();}}
-            underlayColor={'#303030'}
-            activeOpacity={0.5}
-            >
-            <Text style={styles.txtFaleConosco}>VALIDAR CUPONS</Text>
-          </TouchableHighlight>  
-        );
-    } else {
-      return (
-          <TouchableHighlight style={styles.btnCupons}
-            onPress={() => {Actions.cupons();}}
-            underlayColor={'#303030'}
-            activeOpacity={0.5}
-            >
-            <Text style={styles.txtFaleConosco}>Meus cupons</Text>
-          </TouchableHighlight>        
-        );
-    }
+      if(this.state.isAdmin){
+            return (
+              <TouchableHighlight style={styles.btnCupons}
+                onPress={() => {Actions.cuponsBar({evID: this.state.evID});}}
+                underlayColor={'#303030'}
+                activeOpacity={0.5}
+                >
+                <Text style={styles.txtFaleConosco}>VALIDAR CUPONS</Text>
+              </TouchableHighlight>  
+            );        
+          }else{
+             return (
+              <TouchableHighlight style={styles.btnCupons}
+                onPress={() => {Actions.cupons();}}
+                underlayColor={'#303030'}
+                activeOpacity={0.5}
+                >
+                <Text style={styles.txtFaleConosco}>MEUS CUPONS</Text>
+              </TouchableHighlight>  
+            );            
+          }
 
   }
 
@@ -71,7 +76,7 @@ export default class CenaEditarPerfil extends Component {
                <View style={styles.viewUserData}>
                 <Image source={{uri : this.ReturnURL()}} style={{width: 80, height: 80, borderRadius: 40, backgroundColor: 'transparent'}}/>
                 <Text style={{color: 'white', fontSize: 16, paddingTop: 10}}>
-                  {this.state.userName.toUpperCase()}
+                  {this.state.userName != undefined ? this.state.userName.toUpperCase() : ''}
                 </Text>
                </View>
                <View style={styles.viewOpcoes}>

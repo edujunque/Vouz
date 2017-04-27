@@ -271,7 +271,6 @@ listarDados(filter){
            heading={ <TabHeading style={{backgroundColor: 'black'}}><Text style={this.changeTxtTabStyle(0)}>Recentes</Text></TabHeading>}>
           <Screen style={{backgroundColor: 'black'}}>
               {this.returnEventsListView()}
-              <ModalCodigoPromo modalCheckIn={true} evID={1} evNome={"Ble"}/>
           </Screen>
           </Tab>
           <Tab 

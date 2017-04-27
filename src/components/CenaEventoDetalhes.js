@@ -11,6 +11,7 @@ import Rodape from './Rodape'
 import Topo from './Topo'
 import Filtro from './Filtro'
 import BotaoLike from './BotaoLike'
+import BotaoResgatarCupom from './BotaoResgatarCupom'
 const imgOrg = require('../imgs/admin.png');
 
 //import { NavigationBar } from '@shoutem/ui/navigation';
@@ -188,6 +189,30 @@ returnCheckins(){
     );
   }*/
 
+  renderizaPromocao(){
+    if(this.state.evento.evPromo != undefined){
+      return(
+            <View style={styles.tipoEntrada}>
+              <View style={{flex: 1}}>
+                  <View style={{flex: 2, alignItems: 'center', justifyContent: 'center'}}>
+                     <View>
+                       <Text style={{color: 'white', fontSize: 26}}>{this.state.evento.evPromo.promoNome}</Text>
+                     </View>     
+                  </View>
+                 <View style={{flex: 4.5, margin: 10}}>
+                    <Text style={{color: 'white', fontSize: 14}}>{this.state.evento.evPromo.promoDescricao}</Text>
+                  </View>
+                  <View style={{flex: 2, alignItems: 'center', justifyContent: 'center', marginBottom: 15}}>
+                    <BotaoResgatarCupom evID={this.state.evento.evID}/>                    
+                  </View>
+              </View>                
+            </View>
+        );
+    } else {
+      return(null);
+    }
+  }
+
   render() {
      let shareOptions = {
       title: "React Native",
@@ -204,7 +229,7 @@ returnCheckins(){
         </View>
         <View style={styles.conteudo}>
           <ScrollView>
-            <View style={{height:1500, flex: 1, backgroundColor: '#1D1D1D'}}>
+            <View style={{height:1750, flex: 1, backgroundColor: '#1D1D1D'}}>
               <View style={styles.imagemBanner}>
                 <Image styleName="large-banner" source={{ uri: this.state.evento.evFotoBanner }}></Image>
               </View>
@@ -269,6 +294,7 @@ returnCheckins(){
                     </View>
                 </View>
               </View>
+                {this.renderizaPromocao()}  
               <View style={styles.fotos}>
                 <View style={{flex: 1}}>
                   <View style={{flexDirection: 'row', flex: 2}}>

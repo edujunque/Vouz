@@ -53,60 +53,80 @@ export default class CenaEventoDetalhes extends Component {
 
   // defines the UI of each row in the list
   renderRowUsers(users) {
-  	if(users.codPromo != undefined){
-  		//verifica se o registro não esta duplicado
-  		var precisaInserir = true;
-	for (var i = 0; i < listagemUsuario.length; i++) {
-     if(listagemUsuario[i].userID == users.userID){
-        precisaInserir = false;
-     }
-    }	  		
-	if(precisaInserir){
-		listagemUsuario.push(users)
-	}   	   			
-     // console.log(listagemUsuario);	
-	 return(
-	 	<View>
-          <View>
-            <Text style={{color: '#EE2B7A'}}>{users.name}</Text>
-          </View>
-          <View>
-	 	      <ListView
-			  data={users.codPromo.evID}
-			  renderRow={codPromo => this.renderRowCodPromo(codPromo, users.userID)}
-			  />         	
-          </View>
-	  	</View>
-	 );
-  	} else {
-  		return (null);
-  	}
+    //verifica se o usuario tem codigo para o evento que o admin tem acesso evento.
+    var insereUser = false;
+    var refData = firebaseRef.child('user/'+ users.userID);
+    //evID = 0 significa adesão ao APP
+    refData.on('value',(snapshot) => {
+      if (snapshot.child('/codPromo' + '/evID/' + this.props.evID).exists()){
+        insereUser = true;
+      } else{
+        insereUser = false;
+      }
+    });   
+    if (insereUser){
+      if(users.codPromo != undefined){
+        //verifica se o registro não esta duplicado
+        var precisaInserir = true;
+      for (var i = 0; i < listagemUsuario.length; i++) {
+       if(listagemUsuario[i].userID == users.userID){
+          precisaInserir = false;
+       }
+      }       
+      if(precisaInserir){
+        listagemUsuario.push(users)
+      }             
+       // console.log(listagemUsuario); 
+     return(
+      <View>
+            <View>
+              <Text style={{color: '#EE2B7A'}}>{users.name}</Text>
+            </View>
+            <View>
+            <ListView
+          data={users.codPromo.evID}
+          renderRow={codPromo => this.renderRowCodPromo(codPromo, users.userID)}
+          />          
+            </View>
+      </View>
+     );
+      } else {
+        return (null);
+      }      
+    }else{
+      return (null);
+    }
   }  
   // defines the UI of each row in the list
   renderRowCodPromo(codPromo, userID) {
   	// console.log(userID);
-    return (
-        <View>
-          <View style={{flex: 1, flexDirection: 'row', justifyContent:'flex-start', marginBottom: 8, marginTop: 2}}>
-            <View style={{flex: 2, flexDirection: 'row', borderRightWidth: 0.5, borderColor: '#737373'}}>
-             <Text style={codPromo.codUsado == false ? styles.txtCodLabelDisponivel : styles.txtCodLabelUsado}>CÓDIGO: </Text>
-             <Text style={codPromo.codUsado == false ? styles.txtCodDisponivel : styles.txtCodUsado}>{codPromo.cod}</Text>
-            </View>
-            <View style={{flex: 2, flexDirection: 'row', paddingLeft: 10}}>
-              <TouchableHighlight style={codPromo.codUsado == false ? styles.btnUsarCodHabilitado : styles.btnUsarCodDesabilitado}
-                  onPress={() => {this.alterarStatusCodPromo(userID, codPromo.evID); }}
-                  underlayColor={'transparent'}
-                  activeOpacity={0.5}
-                  disabled={codPromo.codUsado}
-                  >
-				<Text style={codPromo.codUsado == false ? styles.txtStatusDisponivel : styles.txtStatusUsado}>{codPromo.codUsado == false ? 'Disponível' : 'Usado'}</Text>
-              </TouchableHighlight>              
-            </View>
-          </View>
-        </View>
-     );  		
-
-  }
+      
+    //verifica se a promocao que o usuario faz parte deve ser vista por esse admin
+        if(codPromo.evID == this.props.evID){
+          return (
+              <View>
+                <View style={{flex: 1, flexDirection: 'row', justifyContent:'flex-start', marginBottom: 8, marginTop: 2}}>
+                  <View style={{flex: 2, flexDirection: 'row', borderRightWidth: 0.5, borderColor: '#737373'}}>
+                   <Text style={codPromo.codUsado == false ? styles.txtCodLabelDisponivel : styles.txtCodLabelUsado}>CÓDIGO: </Text>
+                   <Text style={codPromo.codUsado == false ? styles.txtCodDisponivel : styles.txtCodUsado}>{codPromo.cod}</Text>
+                  </View>
+                  <View style={{flex: 2, flexDirection: 'row', paddingLeft: 10}}>
+                    <TouchableHighlight style={codPromo.codUsado == false ? styles.btnUsarCodHabilitado : styles.btnUsarCodDesabilitado}
+                        onPress={() => {this.alterarStatusCodPromo(userID, codPromo.evID); }}
+                        underlayColor={'transparent'}
+                        activeOpacity={0.5}
+                        disabled={codPromo.codUsado}
+                        >
+                    <Text style={codPromo.codUsado == false ? styles.txtStatusDisponivel : styles.txtStatusUsado}>{codPromo.codUsado == false ? 'Disponível' : 'Usado'}</Text>
+                    </TouchableHighlight>              
+                  </View>
+                </View>
+              </View>
+           );         
+        } else {
+          return (<View></View>);
+        }
+	}
 
 	alterarStatusCodPromo(userID, evID){
       firebaseRef.child('user/'+ userID + '/codPromo/evID/' + evID).update({
