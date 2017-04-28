@@ -199,10 +199,10 @@ returnCheckins(){
                        <Text style={{color: 'white', fontSize: 26}}>{this.state.evento.evPromo.promoNome}</Text>
                      </View>     
                   </View>
-                 <View style={{flex: 4.5, margin: 10}}>
+                 <View style={{flex: 2, margin: 10}}>
                     <Text style={{color: 'white', fontSize: 14}}>{this.state.evento.evPromo.promoDescricao}</Text>
                   </View>
-                  <View style={{flex: 2, alignItems: 'center', justifyContent: 'center', marginBottom: 15}}>
+                  <View style={{flex: 4, alignItems: 'center', justifyContent: 'center', marginBottom: 15}}>
                     <BotaoResgatarCupom evID={this.state.evento.evID}/>                    
                   </View>
               </View>                

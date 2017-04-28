@@ -3,7 +3,8 @@ import { StyleSheet,  Text,  View, TouchableHighlight } from 'react-native';
 import {firebaseRef, auth} from '../FirebaseConfig'
 import { Actions } from 'react-native-router-flux';
 import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
-
+import ProgressBarClassic from 'react-native-progress-bar-classic';
+import * as Progress from 'react-native-progress';
 
 export default class botaoResgatarCupom extends Component {
   constructor(props){
@@ -15,6 +16,8 @@ export default class botaoResgatarCupom extends Component {
     this.state = { btnResgatarAtivo : true}
     this.state = { txtUsado : false}
     this.state = { txtDescrBtnResgatar : ''}
+    this.state = { percCuponsUsados : 0}
+    this.state = { numCuponsDisponiveis : 0}
    }
   setmodalCodPromoVisible(visible) {
     this.setState({codVisualizado: visible});
@@ -30,7 +33,7 @@ export default class botaoResgatarCupom extends Component {
       var refData = firebaseRef.child('user/'+ usuarioAtual.uid);
       //evID = 0 significa adesão ao APP
       refData.on('value',(snapshot) => {
-        
+    
         if (snapshot.child('/codPromo' + '/evID/' + this.props.evID).exists()){
           // console.log('existe o nó:');
           var evCodPromo = snapshot.child('/codPromo' + '/evID/' + this.props.evID).val();
@@ -74,6 +77,13 @@ export default class botaoResgatarCupom extends Component {
           // this.setState({txtDescrBtnResgatar : "resgate seu código"});
         }
       });    
+      var refDataEvento = firebaseRef.child('eventos/'+ this.props.evID + '/evPromo');
+      refDataEvento.on('value',(snapshot) => {
+          //calcula porcentagem dos cupons usados.
+          this.setState({percCuponsUsados : ((100*snapshot.val().promoCuponsUsados)/snapshot.val().promoQtdCupons)/100});
+          //popula state com total de cupons disponiveis
+          this.setState({numCuponsDisponiveis : (snapshot.val().promoQtdCupons - snapshot.val().promoCuponsUsados)});    
+      });                  
   }
 
    btnResgatar() {
@@ -158,6 +168,12 @@ export default class botaoResgatarCupom extends Component {
   }
   render() {
     return(
+      <View style={{flex: 1}}>
+        <View style={{flex: 1, backgroundColor: 'transparent', justifyContent: 'center', paddingBottom: 5}}>
+          <Text style={{textAlign: 'center', color: 'white'}}>{this.state.numCuponsDisponiveis} cupons disponíveis</Text>
+          <Progress.Bar progress={this.state.percCuponsUsados} width={200} color={'#EE2B7A'}/>
+        </View>
+        <View style={{flex: 3, justifyContent: 'center', alignItems: 'center', paddingTop: 10}}>
          <TouchableHighlight style={styles.btnComprar}
             onPress={() => {this.btnResgatar(); }}
             disabled={!this.state.btnResgatarAtivo}
@@ -170,6 +186,10 @@ export default class botaoResgatarCupom extends Component {
             </View>
             
          </TouchableHighlight>          
+        </View>          
+      </View>
+         
+
       );
   }
 }
@@ -179,9 +199,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#EE2B7A',
     width: 150,
     alignItems: 'center',
-    padding: 15,
+    padding: 10,
     borderRadius: 5,
-    marginTop: -15
+    marginTop: 0
   },
   txtStatusDisponivel: {
     color: 'white',
