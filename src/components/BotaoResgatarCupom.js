@@ -39,42 +39,41 @@ export default class botaoResgatarCupom extends Component {
           this.setState({txtBtnResgatar : evCodPromo.cod});
           this.setState({btnResgatarAtivo : false});
           this.setState({txtUsado : evCodPromo.codUsado});
-          this.setState({txtDescrBtnResgatar : "seu código"});
+          this.setState({txtDescrBtnResgatar : evCodPromo.codUsado == true ? "código usado" : "seu código"});
         }
         else{
-          //Ainda não gerou codigo para esse evento.
-          //seta texto do botão de resgatar;
-          this.setState({txtBtnResgatar : "RESGATAR"});
-          //Ativa botão para resgate:
-          this.setState({btnResgatarAtivo : true});
-          this.setState({txtUsado : false});
-          this.setState({txtDescrBtnResgatar : "resgate seu código"});
+          //obtem dados do Evento
+          //Obtem qtd de codigos gerados:
+          var promoCuponsUsados = 0;
+          var refDataEvento = firebaseRef.child('eventos/'+ this.props.evID + '/evPromo');
+          refDataEvento.on('value',(snapshot) => {
+            promoCuponsUsados = snapshot.val().promoCuponsUsados;
+            if(snapshot.val().promoCuponsUsados >= snapshot.val().promoQtdCupons){
+              //Não deve permitir mais geração de cupons
+              this.setState({txtBtnResgatar : "RESGATAR"});
+              //Ativa botão para resgate:
+              this.setState({btnResgatarAtivo : false});
+              this.setState({txtUsado : true});
+              this.setState({txtDescrBtnResgatar : "códigos esgotados"});          
+            }else{
+              //Pode gerar mais cupons
+              this.setState({txtBtnResgatar : "RESGATAR"});
+              //Ativa botão para resgate:
+              this.setState({btnResgatarAtivo : true});
+              this.setState({txtUsado : false});
+              this.setState({txtDescrBtnResgatar : "resgate seu código"});
+            }
 
+          });            
+          // //Ainda não gerou codigo para esse evento.
+          // //seta texto do botão de resgatar;
+          // this.setState({txtBtnResgatar : "RESGATAR"});
+          // //Ativa botão para resgate:
+          // this.setState({btnResgatarAtivo : true});
+          // this.setState({txtUsado : false});
+          // this.setState({txtDescrBtnResgatar : "resgate seu código"});
         }
       });    
-      //obtem dados do Evento
-      //Obtem qtd de codigos gerados:
-      var promoCuponsUsados = 0;
-      var refDataEvento = firebaseRef.child('eventos/'+ this.props.evID + '/evPromo');
-      refDataEvento.on('value',(snapshot) => {
-        promoCuponsUsados = snapshot.val().promoCuponsUsados;
-        if(snapshot.val().promoCuponsUsados >= snapshot.val().promoQtdCupons){
-          //Não deve permitir mais geração de cupons
-          this.setState({txtBtnResgatar : "RESGATAR"});
-          //Ativa botão para resgate:
-          this.setState({btnResgatarAtivo : false});
-          this.setState({txtUsado : true});
-          this.setState({txtDescrBtnResgatar : "códigos esgotados"});          
-        }else{
-          //Pode gerar mais cupons
-          this.setState({txtBtnResgatar : "RESGATAR"});
-          //Ativa botão para resgate:
-          this.setState({btnResgatarAtivo : true});
-          this.setState({txtUsado : false});
-          this.setState({txtDescrBtnResgatar : "resgate seu código"});
-        }
-
-      });         
   }
 
    btnResgatar() {
