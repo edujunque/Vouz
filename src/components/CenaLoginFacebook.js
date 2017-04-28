@@ -5,6 +5,7 @@ import { Actions } from 'react-native-router-flux';
 import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
 import {firebaseRef, auth} from '../FirebaseConfig'
 import axios from 'axios';
+import DeviceInfo from 'react-native-device-info';
 
 const imgLogo = require('../imgs/logo.png');
 const imgBackground = require('../imgs/bg.jpg');

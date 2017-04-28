@@ -142,6 +142,7 @@ dependencies {
     compile project(':react-native-share')
     compile project(':react-native-linear-gradient')
     compile project(':react-native-vector-icons')
+    compile project(':react-native-device-info')
     compile fileTree(dir: "libs", include: ["*.jar"])
     // From node_modules
     compile 'com.android.support:appcompat-v7:23.4.0'
