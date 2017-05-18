@@ -46,7 +46,8 @@ export default class CenaLogin extends Component {
               facebookID : '',
               gender : '',
               name : this.state.name,
-              linkFB : ''
+              linkFB : '',
+              userID : usuarioAtual.uid
            });
            // firebase.database().ref('user/'+ usuarioAtual.uid + '/eventosCheckin').push().set({
            //    dtCkeckin : String(Date.now),

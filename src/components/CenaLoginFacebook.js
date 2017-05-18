@@ -5,6 +5,7 @@ import { Actions } from 'react-native-router-flux';
 import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
 import {firebaseRef, auth} from '../FirebaseConfig'
 import axios from 'axios';
+import DeviceInfo from 'react-native-device-info';
 
 const imgLogo = require('../imgs/logo.png');
 const imgBackground = require('../imgs/bg.jpg');
@@ -69,7 +70,8 @@ export default class LoginFacebook extends Component {
                 facebookID : data.profile.id,
                 gender : data.profile.gender == null ? '' : data.profile.gender,
                 name : data.profile.first_name + ' ' + data.profile.last_name,
-                linkFB : data.profile.link
+                linkFB : data.profile.link,
+                userID : usuarioAtual.uid
              });
            
                 axios.get('http://graph.facebook.com/' + data.profile.id + '/picture?type=large&redirect=true&width=400&height=400')

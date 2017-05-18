@@ -10,6 +10,7 @@ import BotaoLike from './BotaoLike'
 import ModalCodigoPromo from './ModalCodigoPromo'
 import {firebaseRef, auth} from '../FirebaseConfig'
 import { Container, Content, Tab, Tabs, TabHeading } from 'native-base';
+import DeviceInfo from 'react-native-device-info';
 
 //import { NavigationBar } from '@shoutem/ui/navigation';
 const imgLogo = require('../imgs/logo.png');
@@ -174,6 +175,7 @@ listarDados(filter){
 
   componentWillMount() {
     this.listarDados('Recentes');
+    //alert(DeviceInfo.getUniqueID());
   }
 
   // getEventos() {

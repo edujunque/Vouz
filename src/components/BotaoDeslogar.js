@@ -61,7 +61,7 @@ export default class botaoDeslogar extends Component {
 const styles = StyleSheet.create({
   btnCriarConta: {
   backgroundColor: 'transparent',
-  width: 300,
+  width: 225,
   alignItems: 'center',
   padding: 13,
   borderRadius: 30,

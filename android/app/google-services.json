@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "208881071830",
+    "firebase_url": "https://agendabox-72bc2.firebaseio.com",
+    "project_id": "agendabox-72bc2",
+    "storage_bucket": "agendabox-72bc2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:208881071830:android:5e8c23057ddf4cdc",
+        "android_client_info": {
+          "package_name": "com.appbalada"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "208881071830-s09jtgp9flfr5463ui6q40403g9qpamr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.appbalada",
+            "certificate_hash": "072d547fdb64b6f139a1d3c929a434a5eba8ae30"
+          }
+        },
+        {
+          "client_id": "208881071830-mrvb2jvh7s6ap9c14qqf8n1b0uuf7mkf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.appbalada",
+            "certificate_hash": "65d413aa3960c068162f9b35041e74fc5c8c72e6"
+          }
+        },
+        {
+          "client_id": "208881071830-btnpi7b1lu118r8ttge758v5jhha5f8o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8SfY8a97ty2HRnUk9410aXYiBMU_Fwag"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "208881071830-btnpi7b1lu118r8ttge758v5jhha5f8o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

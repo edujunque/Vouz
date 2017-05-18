@@ -5,6 +5,7 @@ import LoginFacebook from './CenaLoginFacebook'
 import CriarConta from './CenaCriarConta'
 import {firebaseRef, auth} from '../FirebaseConfig'
 import SplashScreen from 'react-native-splash-screen'
+import Analytics from 'react-native-firebase-analytics';
 
 const imgLogo = require('../imgs/logo.png');
 const imgBackground = require('../imgs/bg.jpg');
@@ -16,6 +17,12 @@ export default class CenaLogin extends Component {
       auth.onAuthStateChanged(
         (usuarioAtual) => {
           if( usuarioAtual ){
+          Analytics.setUserId('11111');
+          Analytics.setUserProperty('propertyName', 'propertyValue');
+
+          Analytics.logEvent('view_item', {
+            'item_id': 'login'
+          });            
             Actions.timeline();
           } else {
             Actions.entrarJa();
