@@ -12,6 +12,8 @@ import CenaEntrarJa from './components/CenaEntrarJa';
 import CenaFaleConosco from './components/CenaFaleConosco';
 import CenaListagemCupons from './components/CenaListagemCupons';
 import CenaListagemCuponsBar from './components/CenaListagemCuponsBar';
+import CenaEscolhaPromoter from './components/CenaEscolhaPromoter';
+import CenaDetalhesEventoLista from './components/CenaDetalhesEventoLista';
 
 const imgTemp = require('./imgs/NoPhoto_icon-user-default.png');
 
@@ -53,6 +55,15 @@ const Rotas = () => (
 	    		titleStyle={{color:'#b5b5b5'}}
 	    		
 		/>
+		<Scene hideNavBar={true} key='escolhaPromoter' component={CenaEscolhaPromoter} title='' />
+	    <Scene hideNavBar={false} key='eventolista' 
+	    		component={CenaDetalhesEventoLista} 
+	    		leftButtonIconStyle = {{ tintColor:'#EE2B7A'}} 
+	    		rightButtonImage={imgTemp}  
+	    		onRight={()=>{Actions.editarPerfil()}}
+       			rightTitle={null}
+       			rightButtonIconStyle={{ width: 44, height: 44, opacity: 0.01 }}
+        />
 	</Router>
 	);
 
