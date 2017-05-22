@@ -23,10 +23,9 @@ export default class CenaLogin extends Component {
           // Analytics.logEvent('view_item', {
           //   'item_id': 'login'
           // });
-
           //Verifica se o usuario que esta logado pode ver a timeline ou deve ser redirecionado para a tela de "Lista VIP"
             var refData = firebaseRef.child('user/'+ usuarioAtual.uid);
-            refData.on("value", (snapshot) => {
+            refData.once('value').then(function(snapshot) {
               // alert(snapshot.val().listaVIP);
               if (snapshot.val().listaVIP) {
                 //Direciona para a tela onde irá digitar o codigo do promoter para ser direcionado para o evento especifico

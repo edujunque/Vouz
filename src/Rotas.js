@@ -56,7 +56,7 @@ const Rotas = () => (
 	    		
 		/>
 		<Scene hideNavBar={true} key='escolhaPromoter' component={CenaEscolhaPromoter} title='' />
-	    <Scene hideNavBar={false} key='eventolista' 
+	    <Scene hideNavBar={true} key='eventoLista' 
 	    		component={CenaDetalhesEventoLista} 
 	    		leftButtonIconStyle = {{ tintColor:'#EE2B7A'}} 
 	    		rightButtonImage={imgTemp}  

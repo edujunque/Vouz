@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet,  Text,  View, TouchableHighlight, Modal, Image } from 'react-native';
 import {firebaseRef, auth} from '../FirebaseConfig'
-import { Actions } from 'react-native-router-flux';
 import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
 import ProgressBarClassic from 'react-native-progress-bar-classic';
 import * as Progress from 'react-native-progress';
@@ -16,7 +15,6 @@ export default class botaoResgatarCupom extends Component {
   constructor(props){
     super(props);
     this.state = {modalcodListaVipVisible : false};
-    this.state = { codVisualizado : false};
     this.state = { codListaVip : '' };
     this.state = { txtBtnResgatar : '' };
     this.state = { btnResgatarAtivo : true}
@@ -26,9 +24,6 @@ export default class botaoResgatarCupom extends Component {
     this.state = { numCuponsDisponiveis : 0}
     this.state = { modalNomeIncluido : false}
    }
-  setmodalcodListaVipVisible(visible) {
-    this.setState({codVisualizado: visible});
-  }
 
   componentWillMount() {
     this.listarDados();
@@ -64,7 +59,7 @@ export default class botaoResgatarCupom extends Component {
               //Ativa botão para resgate:
               this.setState({btnResgatarAtivo : false});
               this.setState({txtUsado : true});
-              this.setState({txtDescrBtnResgatar : "lugares na lista VIP esgotados"});          
+              this.setState({txtDescrBtnResgatar : "lugares na lista VIP esgotados"});   
             }else{
               //Pode gerar mais cupons
               this.setState({txtBtnResgatar : "INCLUIR NOME"});
@@ -73,7 +68,6 @@ export default class botaoResgatarCupom extends Component {
               this.setState({txtUsado : false});
               this.setState({txtDescrBtnResgatar : "inclua seu nome na lista VIP"});
             }
-
           });            
           // //Ainda não gerou codigo para esse evento.
           // //seta texto do botão de resgatar;
@@ -103,17 +97,7 @@ export default class botaoResgatarCupom extends Component {
         if (snapshot.child('/codListaVip' + '/evID/' + this.props.evID).exists()){
           // console.log('existe o nó:');
           var evcodListaVip = snapshot.child('/codListaVip' + '/evID/' + this.props.evID).val();
-          //Caso já tenha o nó evID = 0 significa que já recebeu o codigo
-          //Verifica qual é o estado atual da visuzliação do código
-          // console.log(evLiked.liked);
-          if(evcodListaVip.codVisualizado){
-            this.setState({codVisualizado: true});
-            // console.log('existe o nó: setou estado true');
-          }
-          else{
-            this.setState({codVisualizado: false});
-            // console.log('existe o nó: setou estado false');
-          }
+ 
           //atualiza state com codListaVip:
           this.setState({codListaVip : evcodListaVip.cod});
         }
@@ -141,15 +125,8 @@ export default class botaoResgatarCupom extends Component {
           firebaseRef.child('eventos/'+ this.props.evID + '/evPromoters/1').update({
             qtdListaUsados : qtdListaUsados + 1
           });
-
-
           //atualiza state com codListaVip:
           this.setState({codListaVip : codTemp});
-          this.setState({codVisualizado: false});
-          //seta texto do botão de resgatar;
-          this.setState({txtBtnResgatar : codTemp});
-          // console.log('nao existe o nó: setou estado false');
-          this.setState({txtDescrBtnResgatar : "seu código"});
         }
       }); 
    }
@@ -173,73 +150,80 @@ export default class botaoResgatarCupom extends Component {
     this.setState({codVisualizado : true});
     return true
   }
-  
-  setmodalNomeInseridoVisible(visible) {
-    this.setState({modalNomeIncluido: visible});
-  }
 
-returnModal(modalNomeIncluido){
- return <Modal 
-            animationType={"slide"}
-            transparent={true}
-            visible={this.state.modalNomeIncluido}
-            onRequestClose={() => {this.setmodalNomeInseridoVisible(!this.state.modalNomeIncluido)}}
-            >
-            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.8)', position: 'relative', paddingTop: 30}}>
-              <View style={{position: 'relative', paddingTop: 30, alignItems: 'center'}}>
-                <View style={{position: 'absolute', zIndex: 3, top: 0 }}>
-                  <Image source={imgTicket} style={{width: 100, height: 105, backgroundColor: 'transparent'}}/>
-                </View>
-                <View style={{paddingTop: 15, backgroundColor: '#303030',height: 300, width: 325, alignItems: 'center', justifyContent: 'center', borderRadius: 15}}>
-                  <View style={{flex: 1, justifyContent: 'flex-end', alignItems: 'center', marginBottom: 15}}>
-                    <View style={{zIndex: 2}}>
-                      <Text style={{color: 'white', fontWeight: 'bold', fontSize: 22, textAlign: 'center'}}>Aeee! VIP Garantido!</Text>
-                      <Text style={{color: 'white', fontSize: 18, textAlign: 'center'}}>É só chegar chegando no dia da</Text>
-                      <Text style={{color: 'white', fontSize: 18, textAlign: 'center'}}>balada com um documento e falar o</Text>
-                      <Text style={{color: 'white', fontSize: 18, textAlign: 'center'}}>código secreto: ABC123</Text>
-                    </View>
-                    <View style={{zIndex: 2}}>
-                      <TouchableHighlight style={styles.btnEntendi}
-                        onPress={() => {
-                        this.setmodalNomeInseridoVisible(!this.state.modalNomeIncluido)
-                      }}>
-                        <Text style={styles.txtEntendi}>ENTENDI</Text>
-                      </TouchableHighlight>
-                    </View>
-                  </View>
-                </View>
-              </View>
-            </View>
-        </Modal>
-  }
+  updateListaVisualizado(){
+  	  const usuarioAtual = auth.currentUser;
+	  //Atualiza evento
+	  firebaseRef.child('user/'+ usuarioAtual.uid + '/codListaVip/evID/' + this.props.evID).update({
+	    codVisualizado : true
+	  }); 	
+  } 
+
+	returnBotaoInserir(){
+		if(this.props.abreModal){
+			return(
+				<View>
+			        <View style={{flex: 1, backgroundColor: 'transparent', justifyContent: 'center', paddingBottom: 5}}>
+			          <Text style={{textAlign: 'center', color: 'white'}}>{this.state.numCuponsDisponiveis} lugares disponíveis</Text>
+			          <Progress.Bar progress={this.state.percCuponsUsados} width={200} color={'#EE2B7A'}/>
+			        </View>
+			        <View style={{flex: 3, justifyContent: 'center', alignItems: 'center', paddingTop: 10}}>
+			         <TouchableHighlight style={styles.btnComprar}
+			            onPress={() => {this.btnResgatar(); }}
+			            disabled={!this.state.btnResgatarAtivo}
+			            activeOpacity={0.5}
+			            underlayColor={'#EE2B7A'}
+			            >
+			            <View>
+			              <Text style={this.state.txtUsado == false ? styles.txtStatusDisponivel : styles.txtStatusUsado}>{this.state.txtBtnResgatar}</Text>
+			              <Text style={{fontSize: 12, textAlign: 'center'}}>{this.state.txtDescrBtnResgatar}</Text>  
+			            </View>
+			            
+			         </TouchableHighlight>          
+			        </View>
+		        </View>          
+				);
+		}	
+	}
 
   render() {
     return(
+     	
       <View style={{flex: 1}}>
-        <View>
-           {this.returnModal(this.props.modalNomeIncluido)}
-        </View>      	
-        <View style={{flex: 1, backgroundColor: 'transparent', justifyContent: 'center', paddingBottom: 5}}>
-          <Text style={{textAlign: 'center', color: 'white'}}>{this.state.numCuponsDisponiveis} lugares disponíveis</Text>
-          <Progress.Bar progress={this.state.percCuponsUsados} width={200} color={'#EE2B7A'}/>
+        <View style={{flex: 1}}>
+			<Modal 
+		     animationType={"slide"}
+		     transparent={true}
+		     visible={!this.props.codListaVisualizado}
+		     onRequestClose={() => {this.setmodalNomeInseridoVisible(!this.state.modalNomeIncluido)}}
+		     >
+			     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.8)', position: 'relative', paddingTop: 30}}>
+			       <View style={{position: 'relative', paddingTop: 30, alignItems: 'center'}}>
+			         <View style={{position: 'absolute', zIndex: 3, top: 0 }}>
+			           <Image source={imgTicket} style={{width: 100, height: 105, backgroundColor: 'transparent'}}/>
+			         </View>
+			         <View style={{paddingTop: 15, backgroundColor: '#303030',height: 300, width: 325, alignItems: 'center', justifyContent: 'center', borderRadius: 15}}>
+			           <View style={{flex: 1, justifyContent: 'flex-end', alignItems: 'center', marginBottom: 15}}>
+			             <View style={{zIndex: 2}}>
+			               <Text style={{color: 'white', fontWeight: 'bold', fontSize: 22, textAlign: 'center'}}>Aeee! VIP Garantido!</Text>
+			               <Text style={{color: 'white', fontSize: 18, textAlign: 'center'}}>É só chegar chegando no dia da</Text>
+			               <Text style={{color: 'white', fontSize: 18, textAlign: 'center'}}>balada com um documento e falar o</Text>
+			               <Text style={{color: 'white', fontSize: 18, textAlign: 'center'}}>código secreto: {this.props.codlista}</Text>
+			             </View>
+			             <View style={{zIndex: 2}}>
+			               <TouchableHighlight style={styles.btnEntendi}
+			                 onPress={() => {this.updateListaVisualizado()}}>
+			                 <Text style={styles.txtEntendi}>ENTENDI</Text>
+			               </TouchableHighlight>
+			             </View>
+			           </View>
+			         </View>
+			       </View>
+			     </View>
+	 		</Modal>
+        </View>     
+        {this.returnBotaoInserir()}  
         </View>
-        <View style={{flex: 3, justifyContent: 'center', alignItems: 'center', paddingTop: 10}}>
-         <TouchableHighlight style={styles.btnComprar}
-            onPress={() => {this.btnResgatar(); }}
-            disabled={!this.state.btnResgatarAtivo}
-            activeOpacity={0.5}
-            underlayColor={'#EE2B7A'}
-            >
-            <View>
-              <Text style={this.state.txtUsado == false ? styles.txtStatusDisponivel : styles.txtStatusUsado}>{this.state.txtBtnResgatar}</Text>
-              <Text style={{fontSize: 12, textAlign: 'center'}}>{this.state.txtDescrBtnResgatar}</Text>  
-            </View>
-            
-         </TouchableHighlight>          
-        </View>          
-      </View>
-         
-
       );
   }
 }

@@ -22,21 +22,20 @@ export default class CenaEventoDetalhes extends Component {
 				    if (item.child('/evPromoters').exists()){
 				    	if(item.val().evPromoters[1].cod == codigoPromoter){
 				    		blnVerificaCodigo = true;
-				    		Actions.eventolista({evID: item.val().evID});
+				    		Actions.eventoLista({evID: item.val().evID});
 				    	} else{
 							//codigo não é igual				    		
 				    	}
 				    }
 				    else{
 				    	//não existe promotor para esse evento
-				    }	    			
+				    }	  
 	    		}
 	    	)
 		if(!blnVerificaCodigo){
 			alert('Verifique o código digitado!')
 		}	    
 	  });   	
-
   }
 
   render() {
