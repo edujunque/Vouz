@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, Text, StyleSheet, TouchableHighlight, Button, TextInput, ScrollView } from 'react-native';
+import { View, Image, Text, StyleSheet, TouchableHighlight, Button, TextInput, ScrollView, Linking } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import LoginFacebook from './CenaLoginFacebook'
 import CriarConta from './CenaCriarConta'
@@ -43,8 +43,12 @@ export default class CenaLogin extends Component {
 
     componentDidMount() {
         SplashScreen.hide();
+        Linking.getInitialURL().then((url) => {
+          if (url) {
+            console.log('Initial url is: ' + url);
+          }
+        }).catch(err => console.error('An error occurred', err));        
         AnalyticsGoogle.trackScreenView('Login');
-        AnalyticsGoogle.trackEvent('Usuario', 'Novo Login');        
     }
 
  render() {

@@ -14,6 +14,8 @@ import CenaListagemCupons from './components/CenaListagemCupons';
 import CenaListagemCuponsBar from './components/CenaListagemCuponsBar';
 import CenaEscolhaPromoter from './components/CenaEscolhaPromoter';
 import CenaDetalhesEventoLista from './components/CenaDetalhesEventoLista';
+import CenaListagemListaVipUsuario from './components/CenaListagemListaVipUsuario';
+import CenaListagemListaVipAdmin from './components/CenaListagemListaVipAdmin';
 
 const imgTemp = require('./imgs/NoPhoto_icon-user-default.png');
 
@@ -64,6 +66,20 @@ const Rotas = () => (
        			rightTitle={null}
        			rightButtonIconStyle={{ width: 44, height: 44, opacity: 0.01 }}
         />
+	    <Scene hideNavBar={false} key='listaVipUsuario' 
+	    		component={CenaListagemListaVipUsuario} 
+	    		leftButtonIconStyle = {{ tintColor:'#EE2B7A'}} 
+	    		title='LISTAS VIP'
+	    		titleStyle={{color:'#b5b5b5'}}
+	    		
+		/>
+	    <Scene hideNavBar={false} key='listaVipAdmin'
+	    		component={CenaListagemListaVipAdmin} 
+	    		leftButtonIconStyle = {{ tintColor:'#EE2B7A'}} 
+	    		title='LISTAS VIP'
+	    		titleStyle={{color:'#b5b5b5'}}
+	    		
+		/>  		        
 	</Router>
 	);
 

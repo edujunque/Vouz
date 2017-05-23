@@ -68,6 +68,31 @@ export default class CenaEditarPerfil extends Component {
 
   }
 
+    returnBtnListaVIP(){
+      if(this.state.isAdmin){
+            return (
+              <TouchableHighlight style={styles.btnCupons}
+                onPress={() => {Actions.listaVipAdmin({evID: this.state.evID});}}
+                underlayColor={'#303030'}
+                activeOpacity={0.5}
+                >
+                <Text style={styles.txtFaleConosco}>VALIDAR LISTA VIP</Text>
+              </TouchableHighlight>  
+            );        
+          }else{
+             return (
+              <TouchableHighlight style={styles.btnCupons}
+                onPress={() => {Actions.listaVipUsuario();}}
+                underlayColor={'#303030'}
+                activeOpacity={0.5}
+                >
+                <Text style={styles.txtFaleConosco}>MEUS VIPS</Text>
+              </TouchableHighlight>  
+            );            
+          }
+
+  }
+
   render() {
     return (
       
@@ -85,7 +110,7 @@ export default class CenaEditarPerfil extends Component {
                 </Text>
                </View>
                <View style={styles.viewOpcoes}>
-                  {this.returnBtnCupons()}
+                  {this.returnBtnListaVIP()}
                </View>
                <View style={styles.viewLogout}>
                  <BotaoDeslogar />

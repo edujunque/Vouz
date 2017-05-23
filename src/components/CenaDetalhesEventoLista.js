@@ -335,9 +335,9 @@ returnListaVIP(){
 
   render() {
       let shareOptions = {
-      title: "React Native",
-      message: "Hola mundo",
-      url: "http://facebook.github.io/react-native/",
+      title: "Vouz - App da Balada",
+      message: "Entre no VOUZ e veja as informações sobre sua balada!",
+      url: "https://h2b86.app.goo.gl/TPlw",
       subject: "Share Link" //  for email
     };  	
     return (

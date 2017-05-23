@@ -41,7 +41,9 @@ export default class CenaEventoDetalhes extends Component {
   }
 componentDidMount() {
     AnalyticsGoogle.trackScreenView('Escolha Promoter');
-       	
+}
+componentWillMount() {
+    AnalyticsGoogle.trackScreenView('Escolha Promoter');	
 }
   render() {
     return (
