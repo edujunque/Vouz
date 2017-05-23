@@ -6,6 +6,7 @@ import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
 import {firebaseRef, auth} from '../FirebaseConfig'
 import axios from 'axios';
 import DeviceInfo from 'react-native-device-info';
+import AnalyticsGoogle from '../AnalyticsGoogle'
 
 const imgLogo = require('../imgs/logo.png');
 const imgBackground = require('../imgs/bg.jpg');
@@ -43,7 +44,7 @@ export default class LoginFacebook extends Component {
     var email = data.profile.email;
     var senha = data.profile.id;
     var photoUrl = '';
-
+    AnalyticsGoogle.trackEvent('Acesso', 'Novo Login Facebook');  
     
      console.log('fota: ',photo);
       // 'http://graph.facebook.com/' + data.profile.id + '/picture?type=large&redirect=true&width=400&height=400'

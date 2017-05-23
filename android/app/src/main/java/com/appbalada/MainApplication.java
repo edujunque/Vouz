@@ -1,33 +1,11 @@
 package com.appbalada;
 
 import android.app.Application;
-
 import com.facebook.react.ReactApplication;
-import com.oblador.vectoricons.VectorIconsPackage;
-import com.cboy.rn.splashscreen.SplashScreenReactPackage;
-import cl.json.RNSharePackage;
-import com.reactnative.photoview.PhotoViewPackage;
-import com.airbnb.android.react.maps.MapsPackage;
-import com.BV.LinearGradient.LinearGradientPackage;
 import com.evollu.react.fa.FIRAnalyticsPackage;
-import com.magus.fblogin.FacebookLoginPackage;
-import com.learnium.RNDeviceInfo.RNDeviceInfo;
-import com.reactnative.photoview.PhotoViewPackage;
-import cl.json.RNSharePackage;
-import com.BV.LinearGradient.LinearGradientPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
+import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.cboy.rn.splashscreen.SplashScreenReactPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
-import cl.json.RNSharePackage;
-import com.reactnative.photoview.PhotoViewPackage;
-import com.airbnb.android.react.maps.MapsPackage;
-import com.BV.LinearGradient.LinearGradientPackage;
-import com.magus.fblogin.FacebookLoginPackage;
-import com.reactnative.photoview.PhotoViewPackage;
-import cl.json.RNSharePackage;
-import com.BV.LinearGradient.LinearGradientPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.magus.fblogin.FacebookLoginPackage;
 import com.reactnative.photoview.PhotoViewPackage;
@@ -56,25 +34,15 @@ public class MainApplication extends Application implements ReactApplication {
             new MainReactPackage(),
             new VectorIconsPackage(),
             new SplashScreenReactPackage(),
-            new RNSharePackage(),
             new PhotoViewPackage(),
             new MapsPackage(),
             new LinearGradientPackage(),
             new FIRAnalyticsPackage(),
             new FacebookLoginPackage(),
             new RNDeviceInfo(),
-            new PhotoViewPackage(),
-            new RNSharePackage(),
-            new LinearGradientPackage(),
-            new VectorIconsPackage(),
-            new RNDeviceInfo(),
-            new SplashScreenReactPackage(),
-            new LinearGradientPackage(),
-            new FacebookLoginPackage(),
-            new RNSharePackage(),
-            new MapsPackage(),
-            new PhotoViewPackage(),
-            new VectorIconsPackage()
+            new GoogleAnalyticsBridgePackage(),
+            new RNSharePackage()
+            
       );
     }
   };

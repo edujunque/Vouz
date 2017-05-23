@@ -4,6 +4,7 @@ import {firebaseRef, auth} from '../FirebaseConfig'
 import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
 import ProgressBarClassic from 'react-native-progress-bar-classic';
 import * as Progress from 'react-native-progress';
+import AnalyticsGoogle from '../AnalyticsGoogle'
 
 const imgCheckin = require('../imgs/bt-central.png');
 const imgCheckedin = require('../imgs/bt-central-2.png');
@@ -91,6 +92,7 @@ export default class botaoResgatarCupom extends Component {
   }
 
   btnLiberarVips(){
+    AnalyticsGoogle.trackEvent('VIP Admin', 'click liberar novos VIPS');
   	var qtdListaVIP = 0;
 	  //Atualiza evento
 	  var refEvento = firebaseRef.child('eventos/'+ this.props.evID + '/evPromoters/1');

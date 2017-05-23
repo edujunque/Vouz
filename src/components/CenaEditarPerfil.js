@@ -7,6 +7,7 @@ import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
 import Rodape from './Rodape'
 import Topo from './Topo'
 import BotaoDeslogar from './BotaoDeslogar'
+import AnalyticsGoogle from '../AnalyticsGoogle'
 
 const imgBackground = require('../imgs/fdo_user.jpg');
 
@@ -36,6 +37,10 @@ export default class CenaEditarPerfil extends Component {
 
   ReturnURL(){
       return auth.currentUser.photoURL == null ? 'https://firebasestorage.googleapis.com/v0/b/agendabox-72bc2.appspot.com/o/NoPhoto_icon-user-default.png?alt=media&token=a3c89af6-759b-47a7-86e0-f6cdb2474965' :  auth.currentUser.photoURL;
+  }
+
+  componentDidMount() {
+    AnalyticsGoogle.trackScreenView('Editar Perfil');
   }
 
   returnBtnCupons(){

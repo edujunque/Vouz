@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Image, Text, StyleSheet, TouchableHighlight, Button, TextInput } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import {firebaseRef, auth} from '../FirebaseConfig'
+import AnalyticsGoogle from '../AnalyticsGoogle'
 
 const imgName = require('../imgs/ico-men.png');
 const imgEmail = require('../imgs/ico-mail.png');
@@ -30,6 +31,7 @@ export default class CenaLogin extends Component {
   }
 
   saveUserData(){
+    AnalyticsGoogle.trackEvent('Nova Conta', 'Cadastro de usuario');
     if(this.passwordValidate()){
         //console.log(data);
         var email = this.state.email;
@@ -73,6 +75,7 @@ export default class CenaLogin extends Component {
     }
     else {
       alert('As senhas devem ser iguais!');
+      AnalyticsGoogle.trackEvent('Nova Conta', 'Senhas não batem');
     }
   }
 

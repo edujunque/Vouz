@@ -5,7 +5,7 @@ import LoginFacebook from './CenaLoginFacebook'
 import CriarConta from './CenaCriarConta'
 import {firebaseRef, auth} from '../FirebaseConfig'
 import SplashScreen from 'react-native-splash-screen'
-// import Analytics from 'react-native-firebase-analytics';
+import AnalyticsGoogle from '../AnalyticsGoogle'
 
 const imgLogo = require('../imgs/logo.png');
 const imgBackground = require('../imgs/bg.jpg');
@@ -43,12 +43,12 @@ export default class CenaLogin extends Component {
 
     componentDidMount() {
         SplashScreen.hide();
+        AnalyticsGoogle.trackScreenView('Login');
+        AnalyticsGoogle.trackEvent('Usuario', 'Novo Login');        
     }
 
  render() {
     return (
-      
-      
       <Image style={{flex: 1, height: null, width: null, resizeMode: 'cover'}} source= {imgBackground}>
       <ScrollView style={styles.principal}>
       <View style={{alignItems:'center', justifyContent:'center', flex: 3, paddingTop: 40, paddingBottom: 40}}>

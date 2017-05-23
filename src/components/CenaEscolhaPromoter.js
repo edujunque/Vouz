@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet,  Text,  View, TouchableHighlight, TouchableOpacity, Image, TextInput } from 'react-native';
 import {firebaseRef, auth} from '../FirebaseConfig'
 import { Actions } from 'react-native-router-flux';
+import AnalyticsGoogle from '../AnalyticsGoogle'
 
 const imgBackground = require('../imgs/bg.jpg');
 
@@ -13,6 +14,7 @@ export default class CenaEventoDetalhes extends Component {
   }
 
   entrar(){
+  	AnalyticsGoogle.trackEvent('Escolha Promoter', 'Entrada de novo codigo');
   	//verifica se o codigo digitado pertence a algum evento
  	var codigoPromoter = this.state.codigopromoter;
   	var refData = firebaseRef.child('eventos');
@@ -37,7 +39,10 @@ export default class CenaEventoDetalhes extends Component {
 		}	    
 	  });   	
   }
-
+componentDidMount() {
+    AnalyticsGoogle.trackScreenView('Escolha Promoter');
+       	
+}
   render() {
     return (
 		<Image style={{flex: 1, height: null, width: null, resizeMode: 'cover'}} source= {imgBackground}>

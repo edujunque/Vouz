@@ -4,6 +4,7 @@ import {firebaseRef, auth} from '../FirebaseConfig'
 import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
 import ProgressBarClassic from 'react-native-progress-bar-classic';
 import * as Progress from 'react-native-progress';
+import AnalyticsGoogle from '../AnalyticsGoogle'
 
 const imgCheckin = require('../imgs/bt-central.png');
 const imgCheckedin = require('../imgs/bt-central-2.png');
@@ -88,6 +89,7 @@ export default class botaoResgatarCupom extends Component {
   }
 
    btnResgatar() {
+    AnalyticsGoogle.trackEvent('Inclusao nome Lista', 'click inclusão nome na lista VIP');
     // alert(this.props.evNome);
     const usuarioAtual = auth.currentUser;
       var refData = firebaseRef.child('user/'+ usuarioAtual.uid);

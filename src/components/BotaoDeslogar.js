@@ -3,7 +3,7 @@ import { StyleSheet,  Text,  View, TouchableHighlight } from 'react-native';
 import {firebaseRef, auth} from '../FirebaseConfig'
 import { Actions } from 'react-native-router-flux';
 import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
-
+import AnalyticsGoogle from '../AnalyticsGoogle'
 
 export default class botaoDeslogar extends Component {
   constructor(props){
@@ -25,6 +25,7 @@ export default class botaoDeslogar extends Component {
    }
 
    deslogarUsuario(){
+      AnalyticsGoogle.trackEvent('Acesso', 'click SAIR');  
       auth.signOut().then(() => {
         Actions.login();
       });

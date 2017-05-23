@@ -6,11 +6,14 @@ import {firebaseRef, auth} from '../FirebaseConfig'
 import { Image,  ListView,  Tile,  Title,  Subtitle,  Screen} from '@shoutem/ui';
 import Share, {ShareSheet, Button} from 'react-native-share';
 import MapView from 'react-native-maps';
+import { GoogleAnalyticsTracker } from 'react-native-google-analytics-bridge';
 import LinearGradient from 'react-native-linear-gradient';
 import Rodape from './Rodape'
 import Topo from './Topo'
 import BotaoInserirNomeListaVIP from './BotaoInserirNomeListaVip'
 import BotaoLiberarVips from './BotaoLiberarVips'
+import AnalyticsGoogle from '../AnalyticsGoogle'
+
 
 const imgOrg = require('../imgs/admin.png');
 const imgMen = require('../imgs/men-grey.png');
@@ -74,6 +77,10 @@ export default class CenaDetalhesEventoLista extends Component {
 	  });
     });
   }
+
+componentDidMount() {
+    AnalyticsGoogle.trackScreenView('DetalhesEventosListaVIP');
+}
 
   componentWillMount() {
     this.listarDados();

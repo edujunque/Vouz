@@ -3,6 +3,7 @@ import { View, Image, Text, StyleSheet, TouchableHighlight, TextInput, ScrollVie
 import { Actions } from 'react-native-router-flux';
 import {firebaseRef, auth} from '../FirebaseConfig'
 import LoginFacebook from './CenaLoginFacebook'
+import AnalyticsGoogle from '../AnalyticsGoogle'
 
 const imgEmail = require('../imgs/ico-mail.png');
 const imgPassword = require('../imgs/ico-pass.png');
@@ -17,7 +18,7 @@ export default class CenaLogin extends Component {
   }
 
  logIn(){
-    
+    AnalyticsGoogle.trackEvent('Acesso', 'Novo Login');   
     var email = this.state.email;
     var senha = this.state.pass;
     if(email == null){
@@ -30,11 +31,13 @@ export default class CenaLogin extends Component {
         }, function(error) {
         // An error happened.
         alert(error);
+        AnalyticsGoogle.trackEvent('Acesso', ' Senha incorreta');
       });
     }
   }
 
   esqueciMinhaSenha(){
+   AnalyticsGoogle.trackEvent('Acesso', 'Esqueci Minha senha');
    var email = this.state.email;
      if(email == null){
       alert('Necessário preencher o E-mail')
