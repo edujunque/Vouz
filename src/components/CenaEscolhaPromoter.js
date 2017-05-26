@@ -22,7 +22,7 @@ export default class CenaEventoDetalhes extends Component {
 	  refData.on('value',(snapshot) => {
 	    snapshot.forEach( function(item) {
 				    if (item.child('/evPromoters').exists()){
-				    	if(item.val().evPromoters[1].cod == codigoPromoter){
+				    	if(item.val().evPromoters[1].cod == codigoPromoter.toUpperCase()){
 				    		blnVerificaCodigo = true;
 				    		Actions.eventoLista({evID: item.val().evID});
 				    	} else{
@@ -39,12 +39,11 @@ export default class CenaEventoDetalhes extends Component {
 		}	    
 	  });   	
   }
-componentDidMount() {
-    AnalyticsGoogle.trackScreenView('Escolha Promoter');
-}
+
 componentWillMount() {
     AnalyticsGoogle.trackScreenView('Escolha Promoter');	
 }
+
   render() {
     return (
 		<Image style={{flex: 1, height: null, width: null, resizeMode: 'cover'}} source= {imgBackground}>

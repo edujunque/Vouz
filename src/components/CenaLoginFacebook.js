@@ -55,8 +55,18 @@ export default class LoginFacebook extends Component {
       
       const usuarioAtual = auth.currentUser;
       this.AtualizaFotoUsuario('http://graph.facebook.com/' + data.profile.id + '/picture?type=large&redirect=true&width=400&height=400', usuarioAtual);
-
-      Actions.timeline();
+      //Verifica se o usuario que esta logado pode ver a timeline ou deve ser redirecionado para a tela de "Lista VIP"
+        var refData = firebaseRef.child('user/'+ usuarioAtual.uid);
+        refData.once('value').then(function(snapshot) {
+          // alert(snapshot.val().listaVIP);
+          if (snapshot.val().listaVIP) {
+            //Direciona para a tela onde irá digitar o codigo do promoter para ser direcionado para o evento especifico
+            Actions.escolhaPromoter();
+          } else {
+            Actions.timeline();
+          }
+        });  
+      // Actions.timeline();
       }, function(error) {
       // An error happened.
         //verifica se o erro é de usuario não encontrado.
@@ -95,8 +105,19 @@ export default class LoginFacebook extends Component {
                   console.log(error);
                 });
 
+          //Verifica se o usuario que esta logado pode ver a timeline ou deve ser redirecionado para a tela de "Lista VIP"
+            var refData = firebaseRef.child('user/'+ usuarioAtual.uid);
+            refData.once('value').then(function(snapshot) {
+              // alert(snapshot.val().listaVIP);
+              if (snapshot.val().listaVIP) {
+                //Direciona para a tela onde irá digitar o codigo do promoter para ser direcionado para o evento especifico
+                Actions.escolhaPromoter();
+              } else {
+                Actions.timeline();
+              }
+            });  
               //Direciona o usuario para a area logada.
-              Actions.timeline();
+              // Actions.timeline();
             }, function(error) {
             // An error happened.
           });

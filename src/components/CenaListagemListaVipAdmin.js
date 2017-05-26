@@ -141,7 +141,7 @@ componentDidMount() {
 		var listagemUser = [];
 		for (var i = 0; i < listagemUsuario.length; i++) {
 		    // Iterate over numeric indexes from 0 to 5, as everyone expects.
-         if(listagemUsuario[i].name.includes(txtFiltro)){
+         if(listagemUsuario[i].name.toUpperCase().includes(txtFiltro.toUpperCase())){
             listagemUser.push(listagemUsuario[i]);
          }			    
 		}			
