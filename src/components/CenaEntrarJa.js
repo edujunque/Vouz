@@ -3,6 +3,7 @@ import { View, Image, Text, StyleSheet, TouchableHighlight, TextInput, ScrollVie
 import { Actions } from 'react-native-router-flux';
 import {firebaseRef, auth} from '../FirebaseConfig'
 import LoginFacebook from './CenaLoginFacebook'
+import AnalyticsGoogle from '../AnalyticsGoogle'
 
 const imgEmail = require('../imgs/ico-mail.png');
 const imgPassword = require('../imgs/ico-pass.png');
@@ -17,7 +18,7 @@ export default class CenaLogin extends Component {
   }
 
  logIn(){
-    
+    AnalyticsGoogle.trackEvent('Acesso', 'Novo Login');   
     var email = this.state.email;
     var senha = this.state.pass;
     if(email == null){
@@ -26,15 +27,29 @@ export default class CenaLogin extends Component {
       //Loga usuario usando metodo nativo do firebase, caso dê certo usuario é direcionado para a timeline
       auth.signInWithEmailAndPassword(email, senha).then(() => {
         //Direciona o usuario para a area logada.
-        Actions.timeline();
+          //Verifica se o usuario que esta logado pode ver a timeline ou deve ser redirecionado para a tela de "Lista VIP"
+          const usuarioAtual = auth.currentUser;
+            var refData = firebaseRef.child('user/'+ usuarioAtual.uid);
+            refData.once('value').then(function(snapshot) {
+              // alert(snapshot.val().listaVIP);
+              if (snapshot.val().listaVIP) {
+                //Direciona para a tela onde irá digitar o codigo do promoter para ser direcionado para o evento especifico
+                Actions.escolhaPromoter();
+              } else {
+                Actions.timeline();
+              }
+            });        
+        // Actions.timeline();
         }, function(error) {
         // An error happened.
         alert(error);
+        AnalyticsGoogle.trackEvent('Acesso', ' Senha incorreta');
       });
     }
   }
 
   esqueciMinhaSenha(){
+   AnalyticsGoogle.trackEvent('Acesso', 'Esqueci Minha senha');
    var email = this.state.email;
      if(email == null){
       alert('Necessário preencher o E-mail')

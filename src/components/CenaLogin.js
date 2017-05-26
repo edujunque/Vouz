@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { View, Image, Text, StyleSheet, TouchableHighlight, Button, TextInput, ScrollView } from 'react-native';
+import { View, Image, Text, StyleSheet, TouchableHighlight, Button, TextInput, ScrollView, Linking } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import LoginFacebook from './CenaLoginFacebook'
 import CriarConta from './CenaCriarConta'
 import {firebaseRef, auth} from '../FirebaseConfig'
 import SplashScreen from 'react-native-splash-screen'
-import Analytics from 'react-native-firebase-analytics';
+import AnalyticsGoogle from '../AnalyticsGoogle'
 
 const imgLogo = require('../imgs/logo.png');
 const imgBackground = require('../imgs/bg.jpg');
@@ -17,13 +17,23 @@ export default class CenaLogin extends Component {
       auth.onAuthStateChanged(
         (usuarioAtual) => {
           if( usuarioAtual ){
-          Analytics.setUserId('11111');
-          Analytics.setUserProperty('propertyName', 'propertyValue');
+          // Analytics.setUserId('11111');
+          // Analytics.setUserProperty('propertyName', 'propertyValue');
 
-          Analytics.logEvent('view_item', {
-            'item_id': 'login'
-          });            
-            Actions.timeline();
+          // Analytics.logEvent('view_item', {
+          //   'item_id': 'login'
+          // });
+          //Verifica se o usuario que esta logado pode ver a timeline ou deve ser redirecionado para a tela de "Lista VIP"
+            var refData = firebaseRef.child('user/'+ usuarioAtual.uid);
+            refData.once('value').then(function(snapshot) {
+              // alert(snapshot.val().listaVIP);
+              if (snapshot.val().listaVIP) {
+                //Direciona para a tela onde irá digitar o codigo do promoter para ser direcionado para o evento especifico
+                Actions.escolhaPromoter();
+              } else {
+                Actions.timeline();
+              }
+            });
           } else {
             Actions.entrarJa();
           }
@@ -33,12 +43,16 @@ export default class CenaLogin extends Component {
 
     componentDidMount() {
         SplashScreen.hide();
+        Linking.getInitialURL().then((url) => {
+          if (url) {
+            console.log('Initial url is: ' + url);
+          }
+        }).catch(err => console.error('An error occurred', err));        
+        AnalyticsGoogle.trackScreenView('Login');
     }
 
  render() {
     return (
-      
-      
       <Image style={{flex: 1, height: null, width: null, resizeMode: 'cover'}} source= {imgBackground}>
       <ScrollView style={styles.principal}>
       <View style={{alignItems:'center', justifyContent:'center', flex: 3, paddingTop: 40, paddingBottom: 40}}>

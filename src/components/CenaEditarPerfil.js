@@ -7,6 +7,7 @@ import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
 import Rodape from './Rodape'
 import Topo from './Topo'
 import BotaoDeslogar from './BotaoDeslogar'
+import AnalyticsGoogle from '../AnalyticsGoogle'
 
 const imgBackground = require('../imgs/fdo_user.jpg');
 
@@ -38,6 +39,10 @@ export default class CenaEditarPerfil extends Component {
       return auth.currentUser.photoURL == null ? 'https://firebasestorage.googleapis.com/v0/b/agendabox-72bc2.appspot.com/o/NoPhoto_icon-user-default.png?alt=media&token=a3c89af6-759b-47a7-86e0-f6cdb2474965' :  auth.currentUser.photoURL;
   }
 
+  componentDidMount() {
+    AnalyticsGoogle.trackScreenView('Editar Perfil');
+  }
+
   returnBtnCupons(){
       if(this.state.isAdmin){
             return (
@@ -63,6 +68,31 @@ export default class CenaEditarPerfil extends Component {
 
   }
 
+    returnBtnListaVIP(){
+      if(this.state.isAdmin){
+            return (
+              <TouchableHighlight style={styles.btnCupons}
+                onPress={() => {Actions.listaVipAdmin({evID: this.state.evID});}}
+                underlayColor={'#303030'}
+                activeOpacity={0.5}
+                >
+                <Text style={styles.txtFaleConosco}>VALIDAR LISTA VIP</Text>
+              </TouchableHighlight>  
+            );        
+          }else{
+             return (
+              <TouchableHighlight style={styles.btnCupons}
+                onPress={() => {Actions.listaVipUsuario();}}
+                underlayColor={'#303030'}
+                activeOpacity={0.5}
+                >
+                <Text style={styles.txtFaleConosco}>MEUS VIPS</Text>
+              </TouchableHighlight>  
+            );            
+          }
+
+  }
+
   render() {
     return (
       
@@ -80,7 +110,7 @@ export default class CenaEditarPerfil extends Component {
                 </Text>
                </View>
                <View style={styles.viewOpcoes}>
-                  {this.returnBtnCupons()}
+                  {this.returnBtnListaVIP()}
                </View>
                <View style={styles.viewLogout}>
                  <BotaoDeslogar />

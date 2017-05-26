@@ -6,6 +6,7 @@ import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
 import {firebaseRef, auth} from '../FirebaseConfig'
 import axios from 'axios';
 import DeviceInfo from 'react-native-device-info';
+import AnalyticsGoogle from '../AnalyticsGoogle'
 
 const imgLogo = require('../imgs/logo.png');
 const imgBackground = require('../imgs/bg.jpg');
@@ -43,7 +44,7 @@ export default class LoginFacebook extends Component {
     var email = data.profile.email;
     var senha = data.profile.id;
     var photoUrl = '';
-
+    AnalyticsGoogle.trackEvent('Acesso', 'Novo Login Facebook');  
     
      console.log('fota: ',photo);
       // 'http://graph.facebook.com/' + data.profile.id + '/picture?type=large&redirect=true&width=400&height=400'
@@ -54,8 +55,18 @@ export default class LoginFacebook extends Component {
       
       const usuarioAtual = auth.currentUser;
       this.AtualizaFotoUsuario('http://graph.facebook.com/' + data.profile.id + '/picture?type=large&redirect=true&width=400&height=400', usuarioAtual);
-
-      Actions.timeline();
+      //Verifica se o usuario que esta logado pode ver a timeline ou deve ser redirecionado para a tela de "Lista VIP"
+        var refData = firebaseRef.child('user/'+ usuarioAtual.uid);
+        refData.once('value').then(function(snapshot) {
+          // alert(snapshot.val().listaVIP);
+          if (snapshot.val().listaVIP) {
+            //Direciona para a tela onde irá digitar o codigo do promoter para ser direcionado para o evento especifico
+            Actions.escolhaPromoter();
+          } else {
+            Actions.timeline();
+          }
+        });  
+      // Actions.timeline();
       }, function(error) {
       // An error happened.
         //verifica se o erro é de usuario não encontrado.
@@ -71,7 +82,8 @@ export default class LoginFacebook extends Component {
                 gender : data.profile.gender == null ? '' : data.profile.gender,
                 name : data.profile.first_name + ' ' + data.profile.last_name,
                 linkFB : data.profile.link,
-                userID : usuarioAtual.uid
+                userID : usuarioAtual.uid,
+                listaVIP : true
              });
            
                 axios.get('http://graph.facebook.com/' + data.profile.id + '/picture?type=large&redirect=true&width=400&height=400')
@@ -93,8 +105,19 @@ export default class LoginFacebook extends Component {
                   console.log(error);
                 });
 
+          //Verifica se o usuario que esta logado pode ver a timeline ou deve ser redirecionado para a tela de "Lista VIP"
+            var refData = firebaseRef.child('user/'+ usuarioAtual.uid);
+            refData.once('value').then(function(snapshot) {
+              // alert(snapshot.val().listaVIP);
+              if (snapshot.val().listaVIP) {
+                //Direciona para a tela onde irá digitar o codigo do promoter para ser direcionado para o evento especifico
+                Actions.escolhaPromoter();
+              } else {
+                Actions.timeline();
+              }
+            });  
               //Direciona o usuario para a area logada.
-              Actions.timeline();
+              // Actions.timeline();
             }, function(error) {
             // An error happened.
           });
